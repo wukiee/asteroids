@@ -18,12 +18,14 @@ def main():
     shots = pygame.sprite.Group()
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
-    AsteroidField.containers = (updatable)
+    AsteroidField.containers = updatable
     Shot.containers = (shots, updatable, drawable)
 
     AsteroidField()
 
-    player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    score = 0
+    font = pygame.font.Font(None, 36)
     dt = 0
 
     while True:
@@ -45,9 +47,14 @@ def main():
                     log_event("asteroid_shot")
                     asteroid.split()
                     shot.kill()
+                    score += 1
 
         for obj in drawable:
             obj.draw(screen)
+
+        score_text = font.render(f"Score: {score}", True, "white")
+        screen.blit(score_text, (10, SCREEN_HEIGHT - 40))
+
         pygame.display.flip()
 
         # Limit framerate
